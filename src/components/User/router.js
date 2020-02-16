@@ -1,5 +1,5 @@
-const { Router } =  require('express');
-const UserComponent =  require('../User');
+const { Router } = require('express');
+const UserComponent = require('../User');
 
 /**
  * Express router to mount user related functions on.
@@ -16,6 +16,10 @@ const router = Router();
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
-router.get('/',  UserComponent.findAll);
+router.get('/', UserComponent.findAll);
+router.get('/find', UserComponent.findUser);
+router.post('/create', UserComponent.createUser);
+router.put('/update', UserComponent.updateUser);
+router.delete('/delete', UserComponent.deleteUser);
 
 module.exports = router;
