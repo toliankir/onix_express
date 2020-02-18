@@ -4,13 +4,15 @@ const connections = require('../../config/connection');
 const UserSchema = new Schema({
     fullName: {
         type: String,
-        required: true
+        required: true,
+        match: /^[A-z'-]+ [A-z'-]+$/
     },
     email: {
         type: String,
         required: true,
         trim: true,
-        unique: true
+        unique: true,
+        match: /^.+@.+\..+$/
     }
 }, {
     // collection: 'users',

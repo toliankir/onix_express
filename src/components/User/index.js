@@ -99,9 +99,9 @@ async function deleteUser(req, res, next) {
  * @returns {Promise < void >}
  */
 async function createUser(req, res, next) {
-    if (!validate(req.body, userSchema, res)) {
-        return;
-    }
+    // if (!validate(req.body, userSchema, res)) {
+    //     return;
+    // }
 
     const { email, fullName } = req.body;
     try {
