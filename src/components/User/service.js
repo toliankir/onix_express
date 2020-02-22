@@ -8,9 +8,8 @@ module.exports = {
      * @summary get list of all users
      * @returns Promise<UserModel[]>
      */
-    async findAll() {
-        const users = await UserModel.find({});
-        return users;
+    findAll() {
+        return UserModel.find({});
     },
 
     /**
@@ -20,9 +19,8 @@ module.exports = {
      * @summary Get user by email.
      * @returns Promise<UserModel>
      */
-    async findUser(email) {
-        const findedUser = await UserModel.findOne({ email });
-        return findedUser;
+    findUser(email) {
+        return UserModel.findOne({ email });
     },
 
     /**
@@ -32,10 +30,9 @@ module.exports = {
      * @summary Update user in DB. Search user by email.
      * @returns Promise<UserModel>
      */
-    async updateUser(user) {
+    updateUser(user) {
         const { email } = user;
-        const updatedUser = await UserModel.findOneAndUpdate({ email }, user);
-        return updatedUser;
+        return UserModel.findOneAndUpdate({ email }, user);
     },
 
     /**
@@ -45,9 +42,8 @@ module.exports = {
      * @summary Delete user in DB. Search user by email.
      * @returns Promise<UserModel>
      */
-    async daleteUser(email) {
-        const deletedUser = await UserModel.findOneAndRemove({ email });
-        return deletedUser;
+    daleteUser(email) {
+        return UserModel.findOneAndRemove({ email });
     },
 
 
@@ -58,11 +54,10 @@ module.exports = {
      * @summary Create new user in DB.
      * @returns Promise<UserModel>
      */
-    async createUser({ fullName, email }) {
-        const newUser = await UserModel.create({
+    createUser({ fullName, email }) {
+        return UserModel.create({
             fullName,
             email
         });
-        return newUser;
     }
 };
