@@ -5,6 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const methodOverride = require('method-override');
 const session = require('express-session');
+const csrf = require('csurf');
 
 module.exports = {
     /**
@@ -22,6 +23,8 @@ module.exports = {
         app.use(session({
             secret: 'secret',
             name: 'sessionId',
+            resave: true,
+            saveUninitialized: true,
         }));
         app.use(methodOverride((req) => {
             if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -37,6 +40,7 @@ module.exports = {
         // parse Cookie header and populate req.cookies with an object keyed by the cookie names.
         app.use(cookieParser());
         // returns the compression middleware
+        app.use(csrf({ cookie: true }));
         app.use(compression());
         // helps you secure your Express apps by setting various HTTP headers
         app.use(helmet());
@@ -55,6 +59,18 @@ module.exports = {
                 + ' Access-Control-Allow-Credentials',
             );
             next();
+        });
+        // handle CSRF token errors here
+        app.use((err, req, res, next) => {
+            if (err.code !== 'EBADCSRFTOKEN') return next(err);
+            return res.render('csrfError');
+        });
+        // Remove _csrf token from req.body
+        app.use((req, res, next) => {
+            /* eslint-disable */
+            delete req.body._csrf;
+            /* eslint-enable */
+            return next();
         });
     },
 };

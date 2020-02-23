@@ -10,7 +10,7 @@ const router = Router();
 
 /**
  * Route serving list of users.
- * @name /v1/users
+ * @name /users
  * @function
  * @inner
  * @param {string} path - Express path
@@ -18,25 +18,39 @@ const router = Router();
  */
 router.get('/', UserViewComponent.showAll);
 
-router.get('/add', UserViewComponent.showAddUser);
-
-router.get('/update/:userId', UserViewComponent.showUpdateUser);
-
-router.get('/delete/:userId', UserViewComponent.showDeleteUser);
-
 /**
- * Route serving a user
- * @name /v1/users/:id
+ * Route serving form for a new user
+ * @name /users/add
  * @function
  * @inner
  * @param {string} path - Express path
- * @param {callback} middleware - Express middleware.
+ * @param {callback} middleware - Express middleware
  */
-// router.get('/:id', UserComponent.findById);
+router.get('/add', UserViewComponent.showAddUser);
+
+/**
+ * Route serving form to update a new user
+ * @name /users/update/:userId
+ * @function
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware
+ */
+router.get('/update/:userId', UserViewComponent.showUpdateUser);
+
+/**
+ * Route serving form to delete a new user
+ * @name /users/delete/:userId
+ * @function
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware
+ */
+router.get('/delete/:userId', UserViewComponent.showDeleteUser);
 
 /**
  * Route serving a new user
- * @name /v1/users
+ * @name /users
  * @function
  * @inner
  * @param {string} path - Express path
@@ -46,7 +60,7 @@ router.post('/', UserViewComponent.create);
 
 /**
  * Route serving a new user
- * @name /v1/users
+ * @name /users
  * @function
  * @inner
  * @param {string} path - Express path
@@ -56,7 +70,7 @@ router.put('/', UserViewComponent.updateById);
 
 /**
  * Route serving a new user
- * @name /v1/users
+ * @name /users
  * @function
  * @inner
  * @param {string} path -Express path

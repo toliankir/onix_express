@@ -1,5 +1,5 @@
 const express = require('express');
-const http = require('http');
+// const http = require('http');
 const UserRouter = require('../components/User/router');
 const UserViewRouter = require('../components/UserView/router');
 
@@ -40,7 +40,7 @@ module.exports = {
          * @param {callback} middleware - Express middleware.
          */
         app.use((req, res) => {
-            res.status(404).send(http.STATUS_CODES[404]);
+            res.render('404');
         });
 
         /**

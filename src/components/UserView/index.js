@@ -25,6 +25,7 @@ async function showAddUser(req, res, next) {
         res.render('users', {
             users,
             showAddModal: true,
+            csrfToken: req.csrfToken(),
         });
     } catch (error) {
         res.render('500');
@@ -40,6 +41,7 @@ async function showUpdateUser(req, res, next) {
             users,
             updatedUser,
             showUpdateModal: true,
+            csrfToken: req.csrfToken(),
         });
     } catch (error) {
         res.render('500');
@@ -55,6 +57,7 @@ async function showDeleteUser(req, res, next) {
             users,
             deletedUser,
             showDeleteModal: true,
+            csrfToken: req.csrfToken(),
         });
     } catch (error) {
         res.render('500');
