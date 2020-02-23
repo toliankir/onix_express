@@ -70,7 +70,7 @@ module.exports = {
         // handle CSRF token errors here
         app.use((err, req, res, next) => {
             if (err.code !== 'EBADCSRFTOKEN') return next(err);
-            return res.render('csrfError');
+            return res.render('403csrf');
         });
         // Remove _csrf token from req.body, accroding validator terms
         app.use((req, res, next) => {
