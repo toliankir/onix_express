@@ -1,14 +1,17 @@
-const url = require('url');
 const userService = require('./service');
 const userValidation = require('./validation');
 const ValidationError = require('../../error/ValidationError');
 
 async function showAll(req, res, next) {
     try {
+        const { error } = req.session;
+        if (error) {
+            delete req.session.error;
+        }
         const users = await userService.findAll();
         res.render('users', {
             users,
-            error: req.query.error,
+            error,
         });
     } catch (error) {
         res.render('500');
@@ -71,20 +74,12 @@ async function create(req, res, next) {
         return res.redirect('/users');
     } catch (error) {
         if (error instanceof ValidationError) {
-            return res.redirect(url.format({
-                pathname: '/users',
-                query: {
-                    error: error.message[0].message,
-                },
-            }));
+            req.session.error = error.message[0].message;
+            return res.redirect('/users');
         }
         if (error.code === 11000) {
-            return res.redirect(url.format({
-                pathname: '/users',
-                query: {
-                    error: error.errmsg,
-                },
-            }));
+            req.session.error = error.errmsg;
+            return res.redirect('/users');
         }
 
         res.render('500');
@@ -104,12 +99,8 @@ async function deleteById(req, res, next) {
         return res.redirect('/users');
     } catch (error) {
         if (error instanceof ValidationError) {
-            return res.redirect(url.format({
-                pathname: '/users',
-                query: {
-                    error: error.message,
-                },
-            }));
+            req.session.error = error.message[0].message;
+            return res.redirect('/users');
         }
         res.render('500');
         return next(error);
@@ -128,12 +119,8 @@ async function updateById(req, res, next) {
         return res.redirect('/users');
     } catch (error) {
         if (error instanceof ValidationError) {
-            return res.redirect(url.format({
-                pathname: '/users',
-                query: {
-                    error: error.message,
-                },
-            }));
+            req.session.error = error.message[0].message;
+            return res.redirect('/users');
         }
         res.render('500');
         return next(error);

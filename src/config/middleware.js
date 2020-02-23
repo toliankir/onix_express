@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const methodOverride = require('method-override');
+const session = require('express-session');
 
 module.exports = {
     /**
@@ -18,6 +19,10 @@ module.exports = {
                 extended: true,
             }),
         );
+        app.use(session({
+            secret: 'secret',
+            name: 'sessionId',
+        }));
         app.use(methodOverride((req) => {
             if (req.body && typeof req.body === 'object' && '_method' in req.body) {
                 const { _method } = req.body;
