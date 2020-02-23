@@ -12,10 +12,11 @@ const ValidationError = require('../../error/ValidationError');
  */
 async function showAll(req, res, next) {
     try {
-        const { error } = req.session;
-        if (error) {
-            delete req.session.error;
-        }
+        const error = req.flash('error');
+        // const { error } = req.session;
+        // if (error) {
+        //     delete req.session.error;
+        // }
         const users = await userService.findAll();
         res.render('users', {
             users,
@@ -116,11 +117,11 @@ async function create(req, res, next) {
         return res.redirect('/users');
     } catch (error) {
         if (error instanceof ValidationError) {
-            req.session.error = error.message[0].message;
+            req.flash('error', error.message[0].message);
             return res.redirect('/users');
         }
         if (error.code === 11000) {
-            req.session.error = error.errmsg;
+            req.flash('error', error.errmsg);
             return res.redirect('/users');
         }
 
@@ -149,7 +150,7 @@ async function deleteById(req, res, next) {
         return res.redirect('/users');
     } catch (error) {
         if (error instanceof ValidationError) {
-            req.session.error = error.message[0].message;
+            req.flash('error', error.message[0].message);
             return res.redirect('/users');
         }
         res.render('500');
@@ -177,7 +178,7 @@ async function updateById(req, res, next) {
         return res.redirect('/users');
     } catch (error) {
         if (error instanceof ValidationError) {
-            req.session.error = error.message[0].message;
+            req.flash('error', error.message[0].message);
             return res.redirect('/users');
         }
         res.render('500');

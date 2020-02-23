@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const csrf = require('csurf');
+const flash = require('connect-flash');
 
 module.exports = {
     /**
@@ -26,6 +27,7 @@ module.exports = {
             name: 'sessionId',
             resave: true,
             saveUninitialized: true,
+            cookie: { maxAge: 3600 * 24 },
         }));
         // add support of PUT, DELETE, etc method in html forms by adding a _medthod field
         // in POST request
@@ -63,6 +65,8 @@ module.exports = {
             );
             next();
         });
+        // Add flash messages support
+        app.use(flash());
         // handle CSRF token errors here
         app.use((err, req, res, next) => {
             if (err.code !== 'EBADCSRFTOKEN') return next(err);
