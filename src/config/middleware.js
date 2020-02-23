@@ -20,12 +20,15 @@ module.exports = {
                 extended: true,
             }),
         );
+        // add session support
         app.use(session({
             secret: 'secret',
             name: 'sessionId',
             resave: true,
             saveUninitialized: true,
         }));
+        // add support of PUT, DELETE, etc method in html forms by adding a _medthod field
+        // in POST request
         app.use(methodOverride((req) => {
             if (req.body && typeof req.body === 'object' && '_method' in req.body) {
                 const { _method } = req.body;
@@ -65,7 +68,7 @@ module.exports = {
             if (err.code !== 'EBADCSRFTOKEN') return next(err);
             return res.render('csrfError');
         });
-        // Remove _csrf token from req.body
+        // Remove _csrf token from req.body, accroding validator terms
         app.use((req, res, next) => {
             /* eslint-disable */
             delete req.body._csrf;

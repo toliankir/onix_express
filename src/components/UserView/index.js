@@ -2,6 +2,14 @@ const userService = require('./service');
 const userValidation = require('./validation');
 const ValidationError = require('../../error/ValidationError');
 
+/**
+ * @description Show list of all users
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
 async function showAll(req, res, next) {
     try {
         const { error } = req.session;
@@ -19,6 +27,14 @@ async function showAll(req, res, next) {
     }
 }
 
+/**
+ * @description Show list of all users with modal window for user add.
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
 async function showAddUser(req, res, next) {
     try {
         const users = await userService.findAll();
@@ -32,7 +48,14 @@ async function showAddUser(req, res, next) {
         next(error);
     }
 }
-
+/**
+ * @description Show list of all users with modal window for user update.
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
 async function showUpdateUser(req, res, next) {
     try {
         const users = await userService.findAll();
@@ -49,6 +72,14 @@ async function showUpdateUser(req, res, next) {
     }
 }
 
+/**
+ * @description Show list of all users with modal window for user delete.
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
 async function showDeleteUser(req, res, next) {
     try {
         const users = await userService.findAll();
@@ -65,6 +96,14 @@ async function showDeleteUser(req, res, next) {
     }
 }
 
+/**
+ * @description Create new user in database and ridirect to all users page.
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
 async function create(req, res, next) {
     try {
         const { error } = userValidation.create(req.body);
@@ -90,6 +129,14 @@ async function create(req, res, next) {
     }
 }
 
+/**
+ * @description Delete user from database by id and ridirect to all users page.
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
 async function deleteById(req, res, next) {
     try {
         const { error } = userValidation.deleteById(req.body);
@@ -110,6 +157,14 @@ async function deleteById(req, res, next) {
     }
 }
 
+/**
+ * @description Update user in database by id and ridirect to all users page.
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
 async function updateById(req, res, next) {
     try {
         const { error } = userValidation.updateById(req.body);
