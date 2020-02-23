@@ -174,10 +174,202 @@ async function deleteById(req, res, next) {
     }
 }
 
+
+/**
+ * @description Show list of all users
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
+async function showAll(req, res, next) {
+    try {
+        const error = req.flash('error');
+        const users = await UserService.findAll();
+        res.render('users', {
+            users,
+            error,
+        });
+    } catch (error) {
+        res.render('500');
+        next(error);
+    }
+}
+
+/**
+ * @description Show list of all users with modal window for user add.
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
+async function showAddUser(req, res, next) {
+    try {
+        const users = await UserService.findAll();
+        res.render('users', {
+            users,
+            showAddModal: true,
+            csrfToken: req.csrfToken(),
+        });
+    } catch (error) {
+        res.render('500');
+        next(error);
+    }
+}
+/**
+ * @description Show list of all users with modal window for user update.
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
+async function showUpdateUser(req, res, next) {
+    try {
+        const users = await UserService.findAll();
+        /* eslint-disable */
+        const updatedUser = users.find((user) => user._id.toString() === req.params.userId);
+        /* eslint-enable */
+        res.render('users', {
+            users,
+            updatedUser,
+            showUpdateModal: true,
+            csrfToken: req.csrfToken(),
+        });
+    } catch (error) {
+        res.render('500');
+        next(error);
+    }
+}
+
+/**
+ * @description Show list of all users with modal window for user delete.
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
+async function showDeleteUser(req, res, next) {
+    try {
+        const users = await UserService.findAll();
+        /* eslint-disable */
+        const deletedUser = users.find((user) => user._id.toString() === req.params.userId);
+        /* eslint-enable */
+        res.render('users', {
+            users,
+            deletedUser,
+            showDeleteModal: true,
+            csrfToken: req.csrfToken(),
+        });
+    } catch (error) {
+        res.render('500');
+        next(error);
+    }
+}
+
+/**
+ * @description Create new user in database and ridirect to all users page.
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
+async function createUserFromView(req, res, next) {
+    try {
+        const { error } = UserValidation.create(req.body);
+
+        if (error) {
+            throw new ValidationError(error.details);
+        }
+
+        await UserService.create(req.body);
+        return res.redirect('/users');
+    } catch (error) {
+        if (error instanceof ValidationError) {
+            req.flash('error', error.message[0].message);
+            return res.redirect('/users');
+        }
+        if (error.code === 11000) {
+            req.flash('error', error.errmsg);
+            return res.redirect('/users');
+        }
+
+        res.render('500');
+        return next(error);
+    }
+}
+
+/**
+ * @description Delete user from database by id and ridirect to all users page.
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
+async function deleteByIdUserFromView(req, res, next) {
+    try {
+        const { error } = UserValidation.deleteById(req.body);
+
+        if (error) {
+            throw new ValidationError(error.details);
+        }
+
+        await UserService.deleteById(req.body.id);
+        return res.redirect('/users');
+    } catch (error) {
+        if (error instanceof ValidationError) {
+            req.flash('error', error.message[0].message);
+            return res.redirect('/users');
+        }
+        res.render('500');
+        return next(error);
+    }
+}
+
+/**
+ * @description Update user in database by id and ridirect to all users page.
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
+async function updateByIdUserFromView(req, res, next) {
+    try {
+        const { error } = UserValidation.updateById(req.body);
+
+        if (error) {
+            throw new ValidationError(error.details);
+        }
+
+        await UserService.updateById(req.body.id, req.body);
+        return res.redirect('/users');
+    } catch (error) {
+        if (error instanceof ValidationError) {
+            req.flash('error', error.message[0].message);
+            return res.redirect('/users');
+        }
+        res.render('500');
+        return next(error);
+    }
+}
+
 module.exports = {
     findAll,
     findById,
     create,
     updateById,
     deleteById,
+    showAll,
+    showAddUser,
+    showUpdateUser,
+    showDeleteUser,
+    createUserFromView,
+    updateByIdUserFromView,
+    deleteByIdUserFromView,
 };
