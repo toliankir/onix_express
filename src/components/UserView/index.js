@@ -13,10 +13,6 @@ const ValidationError = require('../../error/ValidationError');
 async function showAll(req, res, next) {
     try {
         const error = req.flash('error');
-        // const { error } = req.session;
-        // if (error) {
-        //     delete req.session.error;
-        // }
         const users = await userService.findAll();
         res.render('users', {
             users,
