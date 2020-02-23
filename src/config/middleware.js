@@ -3,6 +3,7 @@ const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const helmet = require('helmet');
+const methodOverride = require('method-override');
 
 module.exports = {
     /**
@@ -17,6 +18,16 @@ module.exports = {
                 extended: true,
             }),
         );
+        app.use(methodOverride((req) => {
+            if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+                const { _method } = req.body;
+                /* eslint-disable */
+                delete req.body._method;
+                /* eslint-enable */
+                return _method;
+            }
+            return null;
+        }));
         app.use(bodyParser.json());
         // parse Cookie header and populate req.cookies with an object keyed by the cookie names.
         app.use(cookieParser());

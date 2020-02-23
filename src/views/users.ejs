@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('header') %>
+
+<body>
+    <div class="container pt-5">
+        <% if (typeof error !== 'undefined') { %>
+        <h5 class="text-danger"><%= error %></h5>
+        <% } %>
+        <h3>Users</h3>
+        <a href="/users/add" class="btn btn-success float-right">Add User</a>
+        <table class="w-100 mx-auto">
+            <thead>
+                <tr>
+                    <th class="px-4">E-Mail</th>
+                    <th class="px-4">Full name</th>
+                    <th class="px-4 text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(user => { %>
+                <tr>
+                    <td class="px-4"><%= user.email %></td>
+                    <td class="px-4"><%= user.fullName %></td>
+                    <td class="px-4 text-center">
+                        <a href="/users/update/<%= user._id %>" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="/users/delete/<%= user._id %>" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+    <% if (typeof showAddModal !== 'undefined') { %>
+        <%- include('modalAdd') %>
+    <% } %>
+    <% if (typeof showUpdateModal !== 'undefined') { %>
+        <%- include('modalUpdate', { updatedUser }) %>
+    <% } %>
+    <% if (typeof showDeleteModal !== 'undefined') { %>
+        <%- include('modalDelete', { deletedUser }) %>
+    <% } %>
+</body>
+
+</html>
