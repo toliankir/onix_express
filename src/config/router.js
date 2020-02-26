@@ -1,5 +1,5 @@
 const express = require('express');
-const { routerUsersApi, routerUsers } = require('../components/User/router');
+const routerUsers = require('../components/User/router');
 
 module.exports = {
     /**
@@ -19,18 +19,12 @@ module.exports = {
          * @param {string} path - Express path
          * @param {callback} middleware - Express middleware.
          */
-        app.use('/v1/users', routerUsersApi);
+        app.use('/v1/users', routerUsers);
 
-        /**
-         * Forwards any requests to the /users URI to UserViewRouter.
-         * @name /users
-         * @function
-         * @inner
-         * @param {string} path - Express path
-         * @param {callback} middleware - Express middleware.
-         */
-        app.use('/users', routerUsers);
 
+        app.use('/$', (req, res) => {
+            res.redirect('/v1/users/user');
+        });
         /**
          * @description No results returned mean the object is not found
          * @function

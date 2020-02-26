@@ -287,15 +287,15 @@ async function createUserFromView(req, res, next) {
         }
 
         await UserService.create(req.body);
-        return res.redirect('/users');
+        return res.redirect('/v1/users/user');
     } catch (error) {
         if (error instanceof ValidationError) {
             req.flash('error', error.message[0].message);
-            return res.redirect('/users');
+            return res.redirect('/v1/users/user');
         }
         if (error.code === 11000) {
             req.flash('error', error.errmsg);
-            return res.redirect('/users');
+            return res.redirect('/v1/users/user');
         }
 
         res.render('500');
@@ -320,11 +320,11 @@ async function deleteByIdUserFromView(req, res, next) {
         }
 
         await UserService.deleteById(req.body.id);
-        return res.redirect('/users');
+        return res.redirect('/v1/users/user');
     } catch (error) {
         if (error instanceof ValidationError) {
             req.flash('error', error.message[0].message);
-            return res.redirect('/users');
+            return res.redirect('/v1/users/user');
         }
         res.render('500');
         return next(error);
@@ -348,11 +348,11 @@ async function updateByIdUserFromView(req, res, next) {
         }
 
         await UserService.updateById(req.body.id, req.body);
-        return res.redirect('/users');
+        return res.redirect('/v1/users/user');
     } catch (error) {
         if (error instanceof ValidationError) {
             req.flash('error', error.message[0].message);
-            return res.redirect('/users');
+            return res.redirect('/v1/users/user');
         }
         res.render('500');
         return next(error);

@@ -17,4 +17,6 @@ const connectOptions = {
     useUnifiedTopology: true,
 };
 
+mongoose.set('useCreateIndex', true);
+
 module.exports = mongoose.createConnection(MONGO_URI, connectOptions);

@@ -7,7 +7,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/users" method="POST" enctype="application/x-www-form-urlencoded">
+            <form action="/v1/users/user" method="POST" enctype="application/x-www-form-urlencoded">
                 <input type="hidden" name="id" value="<%= deletedUser._id %>">
                 <input type="hidden" name="_method" value="DELETE">
                 <div class="modal-body">
@@ -17,7 +17,7 @@
                 <div class="modal-footer">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit" class="btn btn-danger">Delete user</button>
-                    <a href="/users" class="btn btn-secondary">Close</a>
+                    <a href="/v1/users/user" class="btn btn-secondary">Close</a>
                 </div>
             </form>
         </div>

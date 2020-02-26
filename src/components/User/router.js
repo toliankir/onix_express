@@ -6,7 +6,7 @@ const UserComponent = require('../User');
  * @type {Express.Router}
  * @const
  */
-const routerUsersApi = Router();
+const routerUsers = Router();
 
 /**
  * Route serving list of users.
@@ -16,17 +16,7 @@ const routerUsersApi = Router();
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
-routerUsersApi.get('/', UserComponent.findAll);
-
-/**
- * Route serving a user
- * @name /v1/users/:id
- * @function
- * @inner
- * @param {string} path - Express path
- * @param {callback} middleware - Express middleware.
- */
-routerUsersApi.get('/:id', UserComponent.findById);
+// routerUsers.get('/', UserComponent.findAll);
 
 /**
  * Route serving a new user
@@ -36,7 +26,7 @@ routerUsersApi.get('/:id', UserComponent.findById);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsersApi.post('/', UserComponent.create);
+// routerUsers.post('/', UserComponent.create);
 
 /**
  * Route serving a new user
@@ -46,7 +36,7 @@ routerUsersApi.post('/', UserComponent.create);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsersApi.put('/', UserComponent.updateById);
+// routerUsers.put('/', UserComponent.updateById);
 
 /**
  * Route serving a new user
@@ -56,9 +46,7 @@ routerUsersApi.put('/', UserComponent.updateById);
  * @param {string} path -Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsersApi.delete('/', UserComponent.deleteById);
-
-const routerUsers = Router();
+// routerUsers.delete('/', UserComponent.deleteById);
 
 /**
  * Route serving list of users.
@@ -68,7 +56,7 @@ const routerUsers = Router();
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
-routerUsers.get('/', UserComponent.showAll);
+routerUsers.get('/user', UserComponent.showAll);
 
 /**
  * Route serving form for a new user
@@ -78,7 +66,7 @@ routerUsers.get('/', UserComponent.showAll);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.get('/add', UserComponent.showAddUser);
+routerUsers.get('/user/add', UserComponent.showAddUser);
 
 /**
  * Route serving form to update a new user
@@ -88,7 +76,7 @@ routerUsers.get('/add', UserComponent.showAddUser);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.get('/update/:userId', UserComponent.showUpdateUser);
+routerUsers.get('/user/update/:userId', UserComponent.showUpdateUser);
 
 /**
  * Route serving form to delete a new user
@@ -98,7 +86,7 @@ routerUsers.get('/update/:userId', UserComponent.showUpdateUser);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.get('/delete/:userId', UserComponent.showDeleteUser);
+routerUsers.get('/user/delete/:userId', UserComponent.showDeleteUser);
 
 /**
  * Route serving a new user
@@ -108,7 +96,7 @@ routerUsers.get('/delete/:userId', UserComponent.showDeleteUser);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.post('/', UserComponent.createUserFromView);
+routerUsers.post('/user/', UserComponent.createUserFromView);
 
 /**
  * Route serving a new user
@@ -118,7 +106,7 @@ routerUsers.post('/', UserComponent.createUserFromView);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.put('/', UserComponent.updateByIdUserFromView);
+routerUsers.put('/user/', UserComponent.updateByIdUserFromView);
 
 /**
  * Route serving a new user
@@ -128,9 +116,16 @@ routerUsers.put('/', UserComponent.updateByIdUserFromView);
  * @param {string} path -Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.delete('/', UserComponent.deleteByIdUserFromView);
+routerUsers.delete('/user/', UserComponent.deleteByIdUserFromView);
 
-module.exports = {
-    routerUsersApi,
-    routerUsers,
-};
+/**
+ * Route serving a user
+ * @name /v1/users/:id
+ * @function
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
+routerUsers.get('/:id', UserComponent.findById);
+
+module.exports = routerUsers;
