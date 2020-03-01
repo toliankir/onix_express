@@ -2,9 +2,6 @@ const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
 
-// const PublicUrl = require('./Models/url');
-// const mongodb = require('./databaseConnection');
-
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/drive.file'];
 // The file token.json stores the user's access and refresh tokens, and is

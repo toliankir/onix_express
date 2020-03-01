@@ -1,5 +1,5 @@
 const { Schema } = require('mongoose');
-const connections = require('../databaseConnection');
+const connections = require('../service/mongo');
 
 const EmailsSchema = new Schema(
     {

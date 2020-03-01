@@ -1,9 +1,9 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs').promises;
-const { upload } = require('./test');
+const mongodb = require('./service/mongo');
+const { upload } = require('./service/googleapi');
+const Urls = require('./model/url');
 
-// const Emails = require('./Models/emails');
-// const mongodb = require('./databaseConnection');
 
 async function getTableImage() {
     const browser = await puppeteer.launch();
@@ -32,13 +32,18 @@ async function getTableImage() {
     await browser.close();
 }
 
-// function getTimestamp() {
-//     return Math.trunc((new Date() / 1000));
-// }
+function getTimestamp() {
+    return Math.trunc((new Date() / 1000));
+}
 
 (async () => {
     await getTableImage();
-    const test = await upload('./image.png');
+    const url = await upload('./image.png');
     await fs.unlink('./image.png');
-    console.log(test);
+    console.log(url);
+    await Urls.create({
+        url,
+        createdAt: getTimestamp(),
+    });
+    mongodb.close();
 })();

@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
-const Email = require('./Models/email');
-const mongodb = require('./databaseConnection');
+const Email = require('./model/email');
+const mongodb = require('./service/mongo');
 
 async function getEmails() {
     const browser = await puppeteer.launch();
