@@ -7,4 +7,4 @@ node_modules/
 .idea
 .sonarlint
 .node_history
-./scripts/*.json
+scripts/*.json
