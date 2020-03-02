@@ -45,7 +45,6 @@ function getAccessToken(oAuth2Client) {
  * @param {function} callback The callback to call with the authorized client.
  */
 async function authorize(credentials, callback, ...callbackArgs) {
-    // return new Promise((resolve) => {
     /* eslint-disable */
     const { client_secret, client_id, redirect_uris } = credentials.installed;
     /* eslint-enable */
@@ -84,8 +83,13 @@ async function uploadFile(auth, args) {
 
 
 async function upload(srcFile) {
-    const content = await fs.promises.readFile('./scripts/credentials.json');
-    return authorize(JSON.parse(content), uploadFile, srcFile, 'test.png');
+    const credentialsFile = './scripts/credentials.json';
+    try {
+        const content = await fs.promises.readFile(credentialsFile);
+        return authorize(JSON.parse(content), uploadFile, srcFile, 'test.png');
+    } catch (error) {
+        throw new Error(`Credentials file dosen't exist: ${credentialsFile}`);
+    }
 }
 
 module.exports = {

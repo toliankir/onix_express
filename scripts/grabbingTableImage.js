@@ -37,13 +37,17 @@ function getTimestamp() {
 }
 
 (async () => {
-    await getTableImage();
-    const url = await upload('./image.png');
-    await fs.unlink('./image.png');
-    console.log(url);
-    await Urls.create({
-        url,
-        createdAt: getTimestamp(),
-    });
+    try {
+        await getTableImage();
+        const url = await upload('./image.png');
+        await fs.unlink('./image.png');
+        console.log(url);
+        await Urls.create({
+            url,
+            createdAt: getTimestamp(),
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
     mongodb.close();
 })();
