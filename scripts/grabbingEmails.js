@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const Email = require('./model/email');
 const mongodb = require('./service/mongo');
+const { getTimestamp } = require('./service/helper');
 
 async function getEmails() {
     const browser = await puppeteer.launch();
@@ -14,10 +15,6 @@ async function getEmails() {
 
     await browser.close();
     return emails;
-}
-
-function getTimestamp() {
-    return Math.trunc((new Date() / 1000));
 }
 
 (async () => {

@@ -82,11 +82,11 @@ async function uploadFile(auth, args) {
 }
 
 
-async function upload(srcFile) {
+async function upload(srcFile, storeFilename) {
     const credentialsFile = './scripts/credentials.json';
     try {
         const content = await fs.promises.readFile(credentialsFile);
-        return authorize(JSON.parse(content), uploadFile, srcFile, 'test.png');
+        return authorize(JSON.parse(content), uploadFile, srcFile, storeFilename);
     } catch (error) {
         throw new Error(`Credentials file dosen't exist: ${credentialsFile}`);
     }
