@@ -6,9 +6,9 @@ const object = {
 };
 const numbers = [];
 
-Object.keys(object).forEch((item) => {
-    if (typeof object[item] === Number) {
-        numbers.pipe(object[item]);
+Object.keys(object).forEach((item) => {
+    if (typeof object[item] === 'number') {
+        numbers.push(object[item]);
     }
 });
 

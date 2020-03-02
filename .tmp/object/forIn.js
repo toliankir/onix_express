@@ -5,14 +5,14 @@ function ColoredTriangle() {
     this.red = 'color';
 }
 
-ColoredTriangle.prototype = triangle;
+// ColoredTriangle.prototype = triangle;
 
 const obj = new ColoredTriangle();
 
 for (const prop in obj) {
-    if (obj.hasOwnProperty(prop)) {
-        console.log(`obj.${prop} = ${obj[prop]}`);
-    }
+    // if (obj.hasOwnProperty(prop)) {
+        console.log(`obj.${obj[prop]} = ${prop}`);
+    // }
 }
 
 // expected output: "obj.color = red"

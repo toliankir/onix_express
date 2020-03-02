@@ -7,13 +7,16 @@ const object = {
 };
 const same = [];
 
-Object.entries(object).forEch(([key, value]) => {
+Object.entries(object).forEach(([key, value]) => {
     if (key === value) {
-        same.pipe([key, value]);
+        same.push([key, value]);
     }
 });
 
-const obj = Object.fromEntries(new Week(same));
+// const test = new Week(same);
+// console.log(same);
 
-console.log(obj.yay - obj.k);
+const obj = Object.fromEntries(same);
+
+console.log(`${obj.yay}${obj.k}`);
 // expected output: String 'yayk'
