@@ -1,5 +1,6 @@
 const express = require('express');
 const routerUsers = require('../components/User/router');
+const routerAuth = require('../components/Auth/router');
 
 module.exports = {
     /**
@@ -21,6 +22,15 @@ module.exports = {
          */
         app.use('/v1/users', routerUsers);
 
+        /**
+         * Forwards any requests to the /v1/auth URI to AuthRouter.
+         * @name /v1/users
+         * @function
+         * @inner
+         * @param {string} path - Express path
+         * @param {callback} middleware - Express middleware.
+         */
+        app.use('/v1/api/auth', routerAuth);
 
         app.use('/$', (req, res) => {
             res.redirect('/v1/users/user');

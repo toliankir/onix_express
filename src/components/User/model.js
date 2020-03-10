@@ -16,7 +16,7 @@ const UserSchema = new Schema(
             type: String,
             required: true,
         },
-        refresh_token: {
+        refreshToken: {
             type: String,
         },
     },

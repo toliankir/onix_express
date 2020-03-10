@@ -3,7 +3,12 @@ const UserService = require('./service');
 const UserValidation = require('./validation');
 const ValidationError = require('../../error/ValidationError');
 
-
+/**
+ * @description Return object only with _id, email and fullName fields
+ * @function
+ * @param {*} user
+ * @returns
+ */
 function leftNeededFileds(user) {
     const { fullName, email, _id } = user;
     return {
@@ -23,7 +28,6 @@ function leftNeededFileds(user) {
 async function findAll(req, res, next) {
     try {
         const users = await UserService.findAll();
-        console.log(typeof users);
         res.status(200).json({
             data: users,
         });
@@ -52,10 +56,17 @@ async function findById(req, res, next) {
             throw new ValidationError(error.details);
         }
 
-        const user = leftNeededFileds(await UserService.findById(req.params.id));
+        const user = await UserService.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({
+                error: 'User don\'t found',
+                details: `User with id '${req.params.id}' don't found in DB.'`,
+            });
+        }
 
         return res.status(200).json({
-            data: user,
+            data: leftNeededFileds(user),
         });
     } catch (error) {
         if (error instanceof ValidationError) {
