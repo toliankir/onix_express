@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const UserService = require('./service');
 const UserValidation = require('./validation');
 const ValidationError = require('../../error/ValidationError');
@@ -87,6 +88,10 @@ async function create(req, res, next) {
         if (error) {
             throw new ValidationError(error.details);
         }
+
+        req.body.password = crypto.createHmac('sha256', process.env.PASSWORD_CRYPTO_SALT)
+            .update(req.body.password)
+            .digest('hex');
 
         const user = leftNeededFileds(await UserService.create(req.body));
 
