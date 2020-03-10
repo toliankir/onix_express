@@ -16,7 +16,17 @@ const routerUsers = Router();
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
-// routerUsers.get('/', UserComponent.findAll);
+routerUsers.get('/api/', UserComponent.findAll);
+
+/**
+ * Route serving user by it's id.
+ * @name /v1/users
+ * @function
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
+routerUsers.get('/api/:id', UserComponent.findById);
 
 /**
  * Route serving a new user
@@ -26,7 +36,7 @@ const routerUsers = Router();
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-// routerUsers.post('/', UserComponent.create);
+routerUsers.post('/api/', UserComponent.create);
 
 /**
  * Route serving a new user
@@ -36,7 +46,7 @@ const routerUsers = Router();
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-// routerUsers.put('/', UserComponent.updateById);
+routerUsers.put('/api/', UserComponent.updateById);
 
 /**
  * Route serving a new user
@@ -46,7 +56,7 @@ const routerUsers = Router();
  * @param {string} path -Express path
  * @param {callback} middleware - Express middleware
  */
-// routerUsers.delete('/', UserComponent.deleteById);
+routerUsers.delete('/api/', UserComponent.deleteById);
 
 /**
  * Route serving list of users.
