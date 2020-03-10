@@ -73,6 +73,7 @@ module.exports = {
         app.use(flash());
         // handle CSRF token errors here
         app.use((err, req, res, next) => {
+            if (req.originalUrl.indexOf('/api') !== -1) return next();
             if (err.code !== 'EBADCSRFTOKEN') return next(err);
             return res.render('403csrf');
         });

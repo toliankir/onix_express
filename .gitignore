@@ -8,3 +8,4 @@ node_modules/
 .sonarlint
 .node_history
 scripts/*.json
+.env

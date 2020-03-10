@@ -2,6 +2,16 @@ const UserService = require('./service');
 const UserValidation = require('./validation');
 const ValidationError = require('../../error/ValidationError');
 
+
+function leftNeededFileds(user) {
+    const { fullName, email, _id } = user;
+    return {
+        _id,
+        email,
+        fullName,
+    };
+}
+
 /**
  * @function
  * @param {express.Request} req
@@ -12,7 +22,7 @@ const ValidationError = require('../../error/ValidationError');
 async function findAll(req, res, next) {
     try {
         const users = await UserService.findAll();
-
+        console.log(typeof users);
         res.status(200).json({
             data: users,
         });
@@ -41,7 +51,7 @@ async function findById(req, res, next) {
             throw new ValidationError(error.details);
         }
 
-        const user = await UserService.findById(req.params.id);
+        const user = leftNeededFileds(await UserService.findById(req.params.id));
 
         return res.status(200).json({
             data: user,
@@ -78,7 +88,7 @@ async function create(req, res, next) {
             throw new ValidationError(error.details);
         }
 
-        const user = await UserService.create(req.body);
+        const user = leftNeededFileds(await UserService.create(req.body));
 
         return res.status(200).json({
             data: user,
@@ -115,7 +125,7 @@ async function updateById(req, res, next) {
             throw new ValidationError(error.details);
         }
 
-        const updatedUser = await UserService.updateById(req.body.id, req.body);
+        const updatedUser = leftNeededFileds(await UserService.updateById(req.body.id, req.body));
 
         return res.status(200).json({
             data: updatedUser,
@@ -152,7 +162,7 @@ async function deleteById(req, res, next) {
             throw new ValidationError(error.details);
         }
 
-        const deletedUser = await UserService.deleteById(req.body.id);
+        const deletedUser = leftNeededFileds(await UserService.deleteById(req.body.id));
 
         return res.status(200).json({
             data: deletedUser,
