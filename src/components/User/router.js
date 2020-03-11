@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const UserComponent = require('../User');
+const { isAuth } = require('../../middleware/Auth');
 
 /**
  * Express router to mount user related functions on.
@@ -16,7 +17,7 @@ const routerUsers = Router();
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
-routerUsers.get('/api/', UserComponent.findAll);
+routerUsers.get('/api/', isAuth, UserComponent.findAll);
 
 /**
  * Route serving user by it's id.
@@ -26,7 +27,7 @@ routerUsers.get('/api/', UserComponent.findAll);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
-routerUsers.get('/api/:id', UserComponent.findById);
+routerUsers.get('/api/:id', isAuth, UserComponent.findById);
 
 /**
  * Route serving a new user
@@ -46,7 +47,7 @@ routerUsers.post('/api/', UserComponent.create);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.put('/api/', UserComponent.updateById);
+routerUsers.put('/api/', isAuth, UserComponent.updateById);
 
 /**
  * Route serving a new user
@@ -56,7 +57,7 @@ routerUsers.put('/api/', UserComponent.updateById);
  * @param {string} path -Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.delete('/api/', UserComponent.deleteById);
+routerUsers.delete('/api/', isAuth, UserComponent.deleteById);
 
 /**
  * Route serving list of users.

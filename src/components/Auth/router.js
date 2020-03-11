@@ -8,6 +8,6 @@ const routerAuth = Router();
 
 routerAuth.post('/signin', AuthComponent.signIn);
 
-routerAuth.post('/referesh', AuthComponent.updateToken);
+routerAuth.post('/refresh', AuthComponent.updateToken);
 
 module.exports = routerAuth;

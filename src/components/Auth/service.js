@@ -1,15 +1,19 @@
 const UserModel = require('../User/model');
 
-async function getUserByEmail(email) {
+function getUserByEmail(email) {
     return UserModel.findOne({ email }).exec();
 }
 
-async function updateRefreshToken(_id, refreshToken) {
-    console.log(_id, refreshToken);
+function updateRefreshToken(_id, refreshToken) {
     return UserModel.updateOne({ _id }, { refreshToken }).exec();
+}
+
+function getUserByRefreshToken(refreshToken) {
+    return UserModel.findOne({ refreshToken }).exec();
 }
 
 module.exports = {
     getUserByEmail,
     updateRefreshToken,
+    getUserByRefreshToken,
 };

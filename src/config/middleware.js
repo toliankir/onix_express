@@ -48,10 +48,6 @@ module.exports = {
         // returns the compression middleware
         app.use(csrf({ cookie: true }));
         app.use(compression());
-        app.use((req, res, next) => {
-            console.log(req.get('Authorization'));
-            next();
-        });
         // helps you secure your Express apps by setting various HTTP headers
         app.use(helmet());
         // providing a Connect/Express middleware that

@@ -2,21 +2,7 @@ const crypto = require('crypto');
 const UserService = require('./service');
 const UserValidation = require('./validation');
 const ValidationError = require('../../error/ValidationError');
-
-/**
- * @description Return object only with _id, email and fullName fields
- * @function
- * @param {*} user
- * @returns
- */
-function leftNeededFileds(user) {
-    const { fullName, email, _id } = user;
-    return {
-        _id,
-        email,
-        fullName,
-    };
-}
+const { leftNeededFileds } = require('../../helpers/userHelper');
 
 /**
  * @function
