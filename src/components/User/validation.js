@@ -22,6 +22,7 @@ class UserValidation extends Validation {
     /**
      * @param {String} profile.email
      * @param {String} profile.fullName
+     * @param {String} data.password
      * @returns
      * @memberof UserValidation
      */
@@ -36,7 +37,7 @@ class UserValidation extends Validation {
                     .required(),
                 password: this.Joi
                     .string()
-                    .min(6)
+                    .min(1)
                     .required(),
             })
             .validate(profile);
@@ -59,6 +60,23 @@ class UserValidation extends Validation {
                     .required(),
             })
             .validate(data);
+    }
+
+    /**
+     * @param {String} data.email
+     * @param {String} data.password
+     * @returns
+     * @memberof UserValidation
+     */
+    login(data) {
+        return this.Joi
+            .object({
+                email: this.Joi.string().email(),
+                password: this.Joi
+                    .string()
+                    .min(1)
+                    .required(),
+            }).validate(data);
     }
 
     /**

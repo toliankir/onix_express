@@ -3,11 +3,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Delete user</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <a href="/v1/users">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </a>
             </div>
-            <form action="/v1/users/user" method="POST" enctype="application/x-www-form-urlencoded">
+            <form action="/v1/users" method="POST" enctype="application/x-www-form-urlencoded">
                 <input type="hidden" name="id" value="<%= deletedUser._id %>">
                 <input type="hidden" name="_method" value="DELETE">
                 <div class="modal-body">
@@ -17,7 +19,7 @@
                 <div class="modal-footer">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit" class="btn btn-danger">Delete user</button>
-                    <a href="/v1/users/user" class="btn btn-secondary">Close</a>
+                    <a href="/v1/users" class="btn btn-secondary">Close</a>
                 </div>
             </form>
         </div>

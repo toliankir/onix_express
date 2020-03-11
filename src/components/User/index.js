@@ -4,6 +4,12 @@ const UserValidation = require('./validation');
 const ValidationError = require('../../error/ValidationError');
 const { leftNeededFileds } = require('../../helpers/userHelper');
 
+function getCryptedPassword(password) {
+    return crypto.createHmac('sha256', process.env.PASSWORD_CRYPTO_SALT)
+        .update(password)
+        .digest('hex');
+}
+
 /**
  * @function
  * @param {express.Request} req
@@ -86,9 +92,7 @@ async function create(req, res, next) {
             throw new ValidationError(error.details);
         }
 
-        req.body.password = crypto.createHmac('sha256', process.env.PASSWORD_CRYPTO_SALT)
-            .update(req.body.password)
-            .digest('hex');
+        req.body.password = getCryptedPassword(req.body.password);
 
         const user = leftNeededFileds(await UserService.create(req.body));
 
@@ -230,6 +234,37 @@ async function showAddUser(req, res, next) {
         next(error);
     }
 }
+
+
+async function showLogin(req, res, next) {
+    try {
+        const users = await UserService.findAll();
+        res.render('users', {
+            users,
+            showLoginModal: true,
+            csrfToken: req.csrfToken(),
+        });
+    } catch (error) {
+        res.render('500');
+        next(error);
+    }
+}
+
+async function userLogin(req, res, next) {
+    try {
+        const { error } = UserValidation.login(req.body);
+
+        if (error) {
+            throw new ValidationError(error.details);
+        }
+
+        res.redirect('/v1/users');
+    } catch (error) {
+        res.render('500');
+        next(error);
+    }
+}
+
 /**
  * @description Show list of all users with modal window for user update.
  * @function
@@ -298,16 +333,17 @@ async function createUserFromView(req, res, next) {
             throw new ValidationError(error.details);
         }
 
+        req.body.password = getCryptedPassword(req.body.password);
         await UserService.create(req.body);
-        return res.redirect('/v1/users/user');
+        return res.redirect('/v1/users');
     } catch (error) {
         if (error instanceof ValidationError) {
             req.flash('error', error.message[0].message);
-            return res.redirect('/v1/users/user');
+            return res.redirect('/v1/users');
         }
         if (error.code === 11000) {
             req.flash('error', error.errmsg);
-            return res.redirect('/v1/users/user');
+            return res.redirect('/v1/users');
         }
 
         res.render('500');
@@ -332,11 +368,11 @@ async function deleteByIdUserFromView(req, res, next) {
         }
 
         await UserService.deleteById(req.body.id);
-        return res.redirect('/v1/users/user');
+        return res.redirect('/v1/users');
     } catch (error) {
         if (error instanceof ValidationError) {
             req.flash('error', error.message[0].message);
-            return res.redirect('/v1/users/user');
+            return res.redirect('/v1/users');
         }
         res.render('500');
         return next(error);
@@ -360,11 +396,11 @@ async function updateByIdUserFromView(req, res, next) {
         }
 
         await UserService.updateById(req.body.id, req.body);
-        return res.redirect('/v1/users/user');
+        return res.redirect('/v1/users');
     } catch (error) {
         if (error instanceof ValidationError) {
             req.flash('error', error.message[0].message);
-            return res.redirect('/v1/users/user');
+            return res.redirect('/v1/users');
         }
         res.render('500');
         return next(error);
@@ -377,7 +413,9 @@ module.exports = {
     create,
     updateById,
     deleteById,
+    userLogin,
     showAll,
+    showLogin,
     showAddUser,
     showUpdateUser,
     showDeleteUser,

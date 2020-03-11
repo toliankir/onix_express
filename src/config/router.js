@@ -33,7 +33,7 @@ module.exports = {
         app.use('/v1/api/auth', routerAuth);
 
         app.use('/$', (req, res) => {
-            res.redirect('/v1/users/user');
+            res.redirect('/v1/users');
         });
         /**
          * @description No results returned mean the object is not found

@@ -1,14 +1,15 @@
 <div class="modal" tabindex="1" style="display: block;" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h5 class="modal-title">Add user</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <a href="/v1/users">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </a>
             </div>
-            <form action="/v1/users/user" method="POST">
+            <form action="/v1/users" method="POST">
                 <div class="modal-body">
                     <p>Add user to database.</p>
                     <p class="mb-0">E-mail:</p>
@@ -19,11 +20,15 @@
                     <p>
                         <input name="fullName" type="text">
                     </p>
+                    <p class="mb-0">Password:</p>
+                    <p>
+                        <input name="password" type="password">
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit" class="btn btn-primary">Add user</button>
-                    <a href="/v1/users/user" class="btn btn-secondary">Close</a>
+                    <a href="/v1/users" class="btn btn-secondary">Close</a>
                 </div>
             </form>
         </div>

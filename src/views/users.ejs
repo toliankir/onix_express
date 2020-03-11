@@ -7,8 +7,11 @@
         <% if (typeof error !== 'undefined') { %>
         <h5 class="text-danger"><%= error %></h5>
         <% } %>
+        <div class="pb-4">
+            <a href="/v1/users/login" class="btn btn-primary float-right">Login</a>
+        </div>
         <h3>Users</h3>
-        <a href="/v1/users/user/add" class="btn btn-success float-right">Add User</a>
+        <a href="/v1/users/add" class="btn btn-success float-right">Add User</a>
         <table class="w-100 mx-auto">
             <thead>
                 <tr>
@@ -23,8 +26,8 @@
                     <td class="px-4"><%= user.email %></td>
                     <td class="px-4"><%= user.fullName %></td>
                     <td class="px-4 text-center">
-                        <a href="/v1/users/user/update/<%= user._id %>" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="/v1/users/user/delete/<%= user._id %>" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="/v1/users/update/<%= user._id %>" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="/v1/users/delete/<%= user._id %>" class="btn btn-danger btn-sm">Delete</a>
                     </td>
                 </tr>
                 <% }); %>
@@ -39,6 +42,9 @@
     <% } %>
     <% if (typeof showDeleteModal !== 'undefined') { %>
         <%- include('modalDelete', { deletedUser }) %>
+    <% } %>
+    <% if (typeof showLoginModal !== 'undefined') { %>
+        <%- include('modalLogin') %>
     <% } %>
 </body>
 
