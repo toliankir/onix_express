@@ -35,10 +35,6 @@ class UserValidation extends Validation {
                     .min(1)
                     .max(30)
                     .required(),
-                password: this.Joi
-                    .string()
-                    .min(1)
-                    .required(),
             })
             .validate(profile);
     }
@@ -60,23 +56,6 @@ class UserValidation extends Validation {
                     .required(),
             })
             .validate(data);
-    }
-
-    /**
-     * @param {String} data.email
-     * @param {String} data.password
-     * @returns
-     * @memberof UserValidation
-     */
-    login(data) {
-        return this.Joi
-            .object({
-                email: this.Joi.string().email(),
-                password: this.Joi
-                    .string()
-                    .min(1)
-                    .required(),
-            }).validate(data);
     }
 
     /**

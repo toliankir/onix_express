@@ -1,14 +1,6 @@
-const crypto = require('crypto');
 const UserService = require('./service');
 const UserValidation = require('./validation');
 const ValidationError = require('../../error/ValidationError');
-const { leftNeededFileds } = require('../../helpers/userHelper');
-
-function getCryptedPassword(password) {
-    return crypto.createHmac('sha256', process.env.PASSWORD_CRYPTO_SALT)
-        .update(password)
-        .digest('hex');
-}
 
 /**
  * @function
@@ -58,7 +50,7 @@ async function findById(req, res, next) {
         }
 
         return res.status(200).json({
-            data: leftNeededFileds(user),
+            data: user,
         });
     } catch (error) {
         if (error instanceof ValidationError) {
@@ -92,9 +84,7 @@ async function create(req, res, next) {
             throw new ValidationError(error.details);
         }
 
-        req.body.password = getCryptedPassword(req.body.password);
-
-        const user = leftNeededFileds(await UserService.create(req.body));
+        const user = await UserService.create(req.body);
 
         return res.status(200).json({
             data: user,
@@ -131,7 +121,7 @@ async function updateById(req, res, next) {
             throw new ValidationError(error.details);
         }
 
-        const updatedUser = leftNeededFileds(await UserService.updateById(req.body.id, req.body));
+        const updatedUser = await UserService.updateById(req.body.id, req.body);
 
         return res.status(200).json({
             data: updatedUser,
@@ -168,7 +158,7 @@ async function deleteById(req, res, next) {
             throw new ValidationError(error.details);
         }
 
-        const deletedUser = leftNeededFileds(await UserService.deleteById(req.body.id));
+        const deletedUser = await UserService.deleteById(req.body.id);
 
         return res.status(200).json({
             data: deletedUser,
@@ -333,7 +323,6 @@ async function createUserFromView(req, res, next) {
             throw new ValidationError(error.details);
         }
 
-        req.body.password = getCryptedPassword(req.body.password);
         await UserService.create(req.body);
         return res.redirect('/v1/users');
     } catch (error) {

@@ -30,7 +30,7 @@ module.exports = {
          * @param {string} path - Express path
          * @param {callback} middleware - Express middleware.
          */
-        app.use('/v1/api/auth', routerAuth);
+        app.use('/v1/auth', routerAuth);
 
         app.use('/$', (req, res) => {
             res.redirect('/v1/users');

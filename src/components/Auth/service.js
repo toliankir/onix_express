@@ -1,4 +1,8 @@
-const UserModel = require('../User/model');
+const UserModel = require('./model');
+
+function createUser(user) {
+    return UserModel.create(user);
+}
 
 function getUserByEmail(email) {
     return UserModel.findOne({ email }).exec();
@@ -16,4 +20,5 @@ module.exports = {
     getUserByEmail,
     updateRefreshToken,
     getUserByRefreshToken,
+    createUser,
 };

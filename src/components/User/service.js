@@ -8,7 +8,7 @@ const UserModel = require('./model');
  * @returns Promise<UserModel[]>
  */
 function findAll() {
-    return UserModel.find({}).select('email fullName').exec();
+    return UserModel.find({}).exec();
 }
 
 /**

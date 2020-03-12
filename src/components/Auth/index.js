@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const UserValidation = require('./validation');
 const AuthService = require('./service');
+const ValidationError = require('../../error/ValidationError');
 const { leftNeededFileds } = require('../../helpers/userHelper');
 
 async function getTokens(user) {
@@ -14,6 +16,42 @@ async function getTokens(user) {
         accessToken,
         refreshToken,
     };
+}
+
+function getCryptedPassword(password) {
+    return crypto.createHmac('sha256', process.env.PASSWORD_CRYPTO_SALT)
+        .update(password)
+        .digest('hex');
+}
+
+async function createUser(req, res, next) {
+    try {
+        const { error } = UserValidation.create(req.body);
+
+        if (error) {
+            throw new ValidationError(error.details);
+        }
+
+        req.body.password = getCryptedPassword(req.body.password);
+
+        const user = await AuthService.createUser(req.body);
+        console.log(req.body);
+        return res.status(400).json(user);
+    } catch (error) {
+        if (error instanceof ValidationError) {
+            return res.status(422).json({
+                message: error.name,
+                details: error.message,
+            });
+        }
+
+        res.status(500).json({
+            message: error.name,
+            details: error.message,
+        });
+
+        return next(error);
+    }
 }
 
 /**
@@ -93,4 +131,5 @@ async function updateToken(req, res, next) {
 module.exports = {
     signIn,
     updateToken,
+    createUser,
 };
