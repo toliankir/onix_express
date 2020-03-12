@@ -6,7 +6,7 @@ const AuthComponent = require('./index');
  */
 const routerAuth = Router();
 
-routerAuth.post('/api/signin', AuthComponent.signIn);
+routerAuth.post('/api/login', AuthComponent.login);
 
 routerAuth.post('/api/refresh', AuthComponent.updateToken);
 

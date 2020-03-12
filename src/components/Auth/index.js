@@ -61,7 +61,7 @@ async function createUser(req, res, next) {
  * @param {express.NextFunction} next
  * @returns { void }
  */
-async function signIn(req, res, next) {
+async function login(req, res, next) {
     try {
         const user = await AuthService.getUserByEmail(req.body.email);
 
@@ -129,7 +129,7 @@ async function updateToken(req, res, next) {
 }
 
 module.exports = {
-    signIn,
+    login,
     updateToken,
     createUser,
 };
