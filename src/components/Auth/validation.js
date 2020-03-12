@@ -10,7 +10,7 @@ class UserValidation extends Validation {
     create(profile) {
         return this.Joi
             .object({
-                email: this.Joi.string().email(),
+                email: this.Joi.string().email().required(),
                 password: this.Joi
                     .string()
                     .min(1)
@@ -28,10 +28,24 @@ class UserValidation extends Validation {
     login(data) {
         return this.Joi
             .object({
-                email: this.Joi.string().email(),
+                email: this.Joi.string().email().required(),
                 password: this.Joi
                     .string()
                     .min(1)
+                    .required(),
+            }).validate(data);
+    }
+
+    /**
+     * @param {String} data.refreshToken
+     * @returns
+     * @memberof UserValidation
+     */
+    updateToken(data) {
+        return this.Joi
+            .object({
+                refreshToken: this.Joi
+                    .string()
                     .required(),
             }).validate(data);
     }

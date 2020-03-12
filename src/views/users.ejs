@@ -7,8 +7,12 @@
         <% if (typeof error !== 'undefined') { %>
         <h5 class="text-danger"><%= error %></h5>
         <% } %>
-        <div class="pb-4">
-            <a href="/v1/users/login" class="btn btn-primary float-right">Login</a>
+        <div class="pb-4 text-right">
+            <% if (typeof loggedUser !== 'undefined') { %>
+                <%= loggedUser %><a href="/v1/auth/logout" class="ml-1 btn btn-warning">Logout</a>
+            <% } else  {%>
+                <a href="/v1/users/login" class="btn btn-primary">Login</a>
+            <% } %>        
         </div>
         <h3>Users</h3>
         <a href="/v1/users/add" class="btn btn-success float-right">Add User</a>

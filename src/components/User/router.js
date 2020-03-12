@@ -121,8 +121,6 @@ routerUsers.get('/delete/:userId', UserComponent.showDeleteUser);
  */
 routerUsers.post('/', UserComponent.createUserFromView);
 
-routerUsers.post('/login', UserComponent.userLogin);
-
 /**
  * Route serving a new user
  * @name /users

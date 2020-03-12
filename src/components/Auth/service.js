@@ -16,9 +16,14 @@ function getUserByRefreshToken(refreshToken) {
     return UserModel.findOne({ refreshToken }).exec();
 }
 
+function logout(_id) {
+    return UserModel.updateOne({ _id }, { $unset: { refreshToken: '' } }).exec();
+}
+
 module.exports = {
     getUserByEmail,
     updateRefreshToken,
     getUserByRefreshToken,
     createUser,
+    logout,
 };

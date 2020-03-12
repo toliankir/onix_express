@@ -8,8 +8,14 @@ const routerAuth = Router();
 
 routerAuth.post('/api/login', AuthComponent.login);
 
+routerAuth.post('/api/logout', AuthComponent.logout);
+
 routerAuth.post('/api/refresh', AuthComponent.updateToken);
 
 routerAuth.post('/api/create', AuthComponent.createUser);
+
+routerAuth.post('/login', AuthComponent.loginUser);
+
+routerAuth.get('/logout', AuthComponent.logoutUser);
 
 module.exports = routerAuth;

@@ -196,6 +196,7 @@ async function showAll(req, res, next) {
         res.render('users', {
             users,
             error,
+            loggedUser: (req.session.user ? req.session.user.email : undefined),
         });
     } catch (error) {
         res.render('500');
@@ -218,6 +219,7 @@ async function showAddUser(req, res, next) {
             users,
             showAddModal: true,
             csrfToken: req.csrfToken(),
+            loggedUser: (req.session.user ? req.session.user.email : undefined),
         });
     } catch (error) {
         res.render('500');
@@ -233,22 +235,8 @@ async function showLogin(req, res, next) {
             users,
             showLoginModal: true,
             csrfToken: req.csrfToken(),
+            loggedUser: (req.session.user ? req.session.user.email : undefined),
         });
-    } catch (error) {
-        res.render('500');
-        next(error);
-    }
-}
-
-async function userLogin(req, res, next) {
-    try {
-        const { error } = UserValidation.login(req.body);
-
-        if (error) {
-            throw new ValidationError(error.details);
-        }
-
-        res.redirect('/v1/users');
     } catch (error) {
         res.render('500');
         next(error);
@@ -274,6 +262,7 @@ async function showUpdateUser(req, res, next) {
             updatedUser,
             showUpdateModal: true,
             csrfToken: req.csrfToken(),
+            loggedUser: (req.session.user ? req.session.user.email : undefined),
         });
     } catch (error) {
         res.render('500');
@@ -300,6 +289,7 @@ async function showDeleteUser(req, res, next) {
             deletedUser,
             showDeleteModal: true,
             csrfToken: req.csrfToken(),
+            loggedUser: (req.session.user ? req.session.user.email : undefined),
         });
     } catch (error) {
         res.render('500');
@@ -402,7 +392,6 @@ module.exports = {
     create,
     updateById,
     deleteById,
-    userLogin,
     showAll,
     showLogin,
     showAddUser,
