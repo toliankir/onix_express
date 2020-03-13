@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const UserComponent = require('../User');
-const { isAuth } = require('../../middleware/Auth');
+const { isAuth } = require('../../middleware/AuthJWT');
 
 /**
  * Express router to mount user related functions on.
@@ -8,8 +8,10 @@ const { isAuth } = require('../../middleware/Auth');
  * @const
  */
 const routerUsers = Router();
+const routerApi = Router();
 
 /**
+        return next();
  * Route serving list of users.
  * @name /v1/users
  * @function
@@ -17,7 +19,7 @@ const routerUsers = Router();
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
-routerUsers.get('/api/', isAuth, UserComponent.findAll);
+routerApi.get('/', UserComponent.findAll);
 
 /**
  * Route serving user by it's id.
@@ -27,7 +29,7 @@ routerUsers.get('/api/', isAuth, UserComponent.findAll);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
-routerUsers.get('/api/:id', isAuth, UserComponent.findById);
+routerApi.get('/:id', UserComponent.findById);
 
 /**
  * Route serving a new user
@@ -37,7 +39,7 @@ routerUsers.get('/api/:id', isAuth, UserComponent.findById);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.post('/api/', UserComponent.create);
+routerApi.post('/', UserComponent.create);
 
 /**
  * Route serving a new user
@@ -47,7 +49,7 @@ routerUsers.post('/api/', UserComponent.create);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.put('/api/', isAuth, UserComponent.updateById);
+routerApi.put('/', UserComponent.updateById);
 
 /**
  * Route serving a new user
@@ -57,17 +59,7 @@ routerUsers.put('/api/', isAuth, UserComponent.updateById);
  * @param {string} path -Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.delete('/api/', isAuth, UserComponent.deleteById);
-
-/**
- * Route serving a user
- * @name /v1/users/:id
- * @function
- * @inner
- * @param {string} path - Express path
- * @param {callback} middleware - Express middleware.
- */
-routerUsers.get('/api/:id', UserComponent.findById);
+routerApi.delete('/', UserComponent.deleteById);
 
 /**
  * Route serving list of users.
@@ -141,4 +133,5 @@ routerUsers.put('/', UserComponent.updateByIdUserFromView);
  */
 routerUsers.delete('/', UserComponent.deleteByIdUserFromView);
 
+routerUsers.use('/api', isAuth, routerApi);
 module.exports = routerUsers;
