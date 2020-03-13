@@ -192,9 +192,11 @@ async function deleteById(req, res, next) {
 async function showAll(req, res, next) {
     try {
         const error = req.flash('error');
+        const msg = req.flash('msg');
         const users = await UserService.findAll();
         res.render('users', {
             users,
+            msg,
             error,
             loggedUser: (req.session.user ? req.session.user.email : undefined),
         });
@@ -242,6 +244,27 @@ async function showLogin(req, res, next) {
         next(error);
     }
 }
+
+async function showCreateUser(req, res, next) {
+    try {
+        if (req.session.user) {
+            req.flash('error', 'You must logout before creating new user.');
+            res.redirect('/v1/users');
+        }
+
+        const users = await UserService.findAll();
+        res.render('users', {
+            users,
+            showCreateUser: true,
+            csrfToken: req.csrfToken(),
+            loggedUser: (req.session.user ? req.session.user.email : undefined),
+        });
+    } catch (error) {
+        res.render('500');
+        next(error);
+    }
+}
+
 
 /**
  * @description Show list of all users with modal window for user update.
@@ -395,6 +418,7 @@ module.exports = {
     showAll,
     showLogin,
     showAddUser,
+    showCreateUser,
     showUpdateUser,
     showDeleteUser,
     createUserFromView,

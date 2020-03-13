@@ -16,6 +16,8 @@ routerAuth.post('/api/create', AuthComponent.createUser);
 
 routerAuth.post('/login', AuthComponent.loginUser);
 
+routerAuth.post('/create', AuthComponent.createUserFront);
+
 routerAuth.get('/logout', AuthComponent.logoutUser);
 
 module.exports = routerAuth;

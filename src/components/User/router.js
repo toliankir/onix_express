@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const UserComponent = require('../User');
-const { isAuth } = require('../../middleware/AuthJWT');
+const { isAuthJWT, isAuthPasport } = require('../../middleware/Auth');
 
 /**
  * Express router to mount user related functions on.
@@ -79,9 +79,11 @@ routerUsers.get('/', UserComponent.showAll);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.get('/add', UserComponent.showAddUser);
+routerUsers.get('/add', isAuthPasport, UserComponent.showAddUser);
 
 routerUsers.get('/login', UserComponent.showLogin);
+
+routerUsers.get('/create', UserComponent.showCreateUser);
 
 /**
  * Route serving form to update a new user
@@ -91,7 +93,7 @@ routerUsers.get('/login', UserComponent.showLogin);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.get('/update/:userId', UserComponent.showUpdateUser);
+routerUsers.get('/update/:userId', isAuthPasport, UserComponent.showUpdateUser);
 
 /**
  * Route serving form to delete a new user
@@ -101,7 +103,7 @@ routerUsers.get('/update/:userId', UserComponent.showUpdateUser);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.get('/delete/:userId', UserComponent.showDeleteUser);
+routerUsers.get('/delete/:userId', isAuthPasport, UserComponent.showDeleteUser);
 
 /**
  * Route serving a new user
@@ -111,7 +113,7 @@ routerUsers.get('/delete/:userId', UserComponent.showDeleteUser);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.post('/', UserComponent.createUserFromView);
+routerUsers.post('/', isAuthPasport, UserComponent.createUserFromView);
 
 /**
  * Route serving a new user
@@ -121,7 +123,7 @@ routerUsers.post('/', UserComponent.createUserFromView);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.put('/', UserComponent.updateByIdUserFromView);
+routerUsers.put('/', isAuthPasport, UserComponent.updateByIdUserFromView);
 
 /**
  * Route serving a new user
@@ -131,7 +133,7 @@ routerUsers.put('/', UserComponent.updateByIdUserFromView);
  * @param {string} path -Express path
  * @param {callback} middleware - Express middleware
  */
-routerUsers.delete('/', UserComponent.deleteByIdUserFromView);
+routerUsers.delete('/', isAuthPasport, UserComponent.deleteByIdUserFromView);
 
-routerUsers.use('/api', isAuth, routerApi);
+routerUsers.use('/api', isAuthJWT, routerApi);
 module.exports = routerUsers;

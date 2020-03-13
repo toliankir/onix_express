@@ -7,10 +7,14 @@
         <% if (typeof error !== 'undefined') { %>
         <h5 class="text-danger"><%= error %></h5>
         <% } %>
+        <% if (typeof msg !== 'undefined') { %>
+            <h5 class="text-primary"><%= msg %></h5>
+        <% } %>
         <div class="pb-4 text-right">
             <% if (typeof loggedUser !== 'undefined') { %>
                 <%= loggedUser %><a href="/v1/auth/logout" class="ml-1 btn btn-warning">Logout</a>
             <% } else  {%>
+                <a href="/v1/users/create" class="btn btn-primary">Create user</a>
                 <a href="/v1/users/login" class="btn btn-primary">Login</a>
             <% } %>        
         </div>
@@ -49,6 +53,9 @@
     <% } %>
     <% if (typeof showLoginModal !== 'undefined') { %>
         <%- include('modalLogin') %>
+    <% } %>
+    <% if (typeof showCreateUser !== 'undefined') { %>
+        <%- include('modalCreateSystemUser') %>
     <% } %>
 </body>
 

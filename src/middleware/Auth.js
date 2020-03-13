@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-function isAuth(req, res, next) {
+function isAuthJWT(req, res, next) {
     const token = req.get('Authorization');
     let decoded;
     try {
@@ -23,6 +23,14 @@ function isAuth(req, res, next) {
     });
 }
 
+function isAuthPasport(req, res, next) {
+    if (!req.session.user) {
+        req.flash('error', 'You don\'t have permission.');
+        return res.redirect('/v1/users');
+    }
+    return next();
+}
 module.exports = {
-    isAuth,
+    isAuthJWT,
+    isAuthPasport,
 };

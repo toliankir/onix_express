@@ -24,6 +24,31 @@ function getCryptedPassword(password) {
         .digest('hex');
 }
 
+async function createUserFront(req, res, next) {
+    try {
+        const { error } = UserValidation.create(req.body);
+
+        if (error) {
+            throw new ValidationError(error.details);
+        }
+
+        req.body.password = getCryptedPassword(req.body.password);
+
+        const user = await AuthService.createUser(req.body);
+        req.flash('msg', `User created ${user.email}`);
+        return res.redirect('/v1/users');
+    } catch (error) {
+        if (error instanceof ValidationError) {
+            req.flash('error', error.name);
+            return res.redirect('/v1/users');
+        }
+
+        req.flash('error', error.message);
+        res.redirect('/v1/users');
+        return next(error);
+    }
+}
+
 async function createUser(req, res, next) {
     try {
         const { error } = UserValidation.create(req.body);
@@ -229,6 +254,7 @@ module.exports = {
     login,
     updateToken,
     createUser,
+    createUserFront,
     logout,
     loginUser,
     logoutUser,
