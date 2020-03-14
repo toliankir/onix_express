@@ -8,6 +8,8 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const csrf = require('csurf');
 const flash = require('connect-flash');
+const MongoStore = require('connect-mongo')(session);
+const mongoConnection = require('./connection');
 
 module.exports = {
     /**
@@ -28,6 +30,10 @@ module.exports = {
             name: 'sessionId',
             resave: true,
             saveUninitialized: true,
+            store: new MongoStore({
+                mongooseConnection: mongoConnection,
+                dbName: 'session',
+            }),
             cookie: { maxAge: 3600 * 24 },
         }));
         // add support of PUT, DELETE, etc method in html forms by adding a _medthod field
