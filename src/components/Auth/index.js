@@ -60,9 +60,10 @@ async function createUser(req, res, next) {
         req.body.password = getCryptedPassword(req.body.password);
 
         const user = await AuthService.createUser(req.body);
-        return res.status(400).json(user);
+        return res.status(200).json(user);
     } catch (error) {
-        if (error instanceof ValidationError) {
+        if (error instanceof ValidationError
+            || error.name === 'MongoError') {
             return res.status(422).json({
                 message: error.name,
                 details: error.message,
@@ -135,6 +136,7 @@ async function login(req, res, next) {
 }
 
 /**
+ * @description Login User from frontend.
  * @function
  * @param {express.Request} req
  * @param {express.Response} res
@@ -176,6 +178,7 @@ async function loginUser(req, res, next) {
 }
 
 /**
+ * @description Logout user from frontend.
  * @function
  * @param {express.Request} req
  * @param {express.Response} res
@@ -193,6 +196,12 @@ async function logoutUser(req, res, next) {
     }
 }
 
+/**
+ * @description
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ */
 async function updateToken(req, res, next) {
     try {
         const { error } = UserValidation.updateToken(req.body);
@@ -229,6 +238,7 @@ async function updateToken(req, res, next) {
 }
 
 /**
+ * @description Logout User from api Auth.
  * @function
  * @param {express.Request} req
  * @param {express.Response} res
