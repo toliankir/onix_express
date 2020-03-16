@@ -13,13 +13,12 @@ function isAuthJWT(req, res, next) {
     }
 
     const timestampNow = Math.floor(Date.now() / 1000);
-
-    if (decoded.exp > timestampNow) {
+    if (decoded.exp > timestampNow && decoded.user) {
         return next();
     }
 
     return res.status(403).json({
-        error: 'Token expired',
+        error: 'Token expired or wrong',
     });
 }
 

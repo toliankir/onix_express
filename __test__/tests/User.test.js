@@ -5,10 +5,13 @@ const server = require('../../src/server/server');
 
 const { expect } = chai;
 
-const testUserEmail = `user${Math.floor(Math.random() * 1000)}@gmail.com`;
+const testUserEmail = `user${Math.floor(Math.random() * 10000)}@gmail.com`;
 
 describe('UserComponent -> controller', () => {
-    let accessToken = '';
+    let user;
+    let accessToken;
+    let refreshToken;
+
     it('POST Auth -> Component -> controller -> Create user ', (done) => {
         request(server)
             .post('/v1/auth/api/create')
@@ -29,13 +32,72 @@ describe('UserComponent -> controller', () => {
                 expect(body.data.token.accessToken).to.be.a('string');
                 expect(body.data.token.refreshToken).to.be.a('string');
                 accessToken = body.data.token.accessToken;
+                refreshToken = body.data.token.refreshToken;
                 done();
             })
             .catch((error) => {
                 done(error);
             });
     });
-    it('UserComponent -> controller -> /v1/users/', (done) => {
+    console.log(refreshToken);
+
+    it('POST AuthComponent -> controller Refresh -> /v1/auth/api/refresh ', (done) => {
+        request(server)
+            .post('/v1/auth/api/refresh')
+            .send({ refreshToken })
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then(({ body }) => {
+                expect(body.data.token.accessToken).to.be.a('string');
+                expect(body.data.token.refreshToken).to.be.a('string');
+                accessToken = body.data.token.accessToken;
+                accessToken = body.data.token.refreshToken;
+                done();
+            })
+            .catch((error) => {
+                done(error);
+            });
+    });
+
+    it('POST UserComponent -> controller -> /v1/users/', (done) => {
+        request(server)
+            .post('/v1/users/api')
+            .set('Authorization', accessToken)
+            .send({ email: testUserEmail, fullName: 'Test Name' })
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then(({ body }) => {
+                user = body.data;
+                const expectBody = expect(body);
+                expectBody.to.have.property('data').and.to.be.a('object');
+                const expectData = expect(body.data);
+                expectData.to.have.property('_id').and.to.be.a('string');
+                expectData.to.have.property('email').and.to.be.a('string');
+                expectData.to.have.property('fullName').and.to.be.a('string');
+                done();
+            })
+            .catch((err) => done(err));
+    });
+
+    it('GET UserComponent -> controller -> /v1/users/:id', (done) => {
+        request(server)
+            // eslint-disable-next-line no-underscore-dangle
+            .get(`/v1/users/api/${user._id}`)
+            .set('Authorization', accessToken)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then(({ body }) => {
+                const expectData = expect(body.data);
+                expectData.to.have.property('_id').and.to.be.a('string');
+                expectData.to.have.property('email').and.to.be.a('string');
+                expectData.to.have.property('fullName').and.to.be.a('string');
+                done();
+            })
+            .catch((err) => done(err));
+    });
+
+    it('GET UserComponent -> controller -> /v1/users/', (done) => {
         request(server)
             .get('/v1/users/api')
             .set('Authorization', accessToken)
