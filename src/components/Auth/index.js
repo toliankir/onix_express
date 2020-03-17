@@ -33,7 +33,7 @@ function getCryptedPassword(password) {
 }
 
 /**
- * 
+ * @description Create system user from front end
  * @param {Express.Request} req
  * @param {Express.Response} res
  * @param {Express.NextFunction} next
@@ -63,6 +63,12 @@ async function createUserFront(req, res, next) {
     }
 }
 
+/**
+ * @description Create system user from api
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ * @param {Express.NextFunction} next
+ */
 async function createUser(req, res, next) {
     try {
         const { error } = UserValidation.create(req.body);
