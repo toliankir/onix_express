@@ -34,7 +34,7 @@ function create(profile) {
 }
 
 /**
- * Find a user by id and update his profile
+ * @description Find a user by id and update his profile
  * @exports
  * @method updateById
  * @param {string} _id
