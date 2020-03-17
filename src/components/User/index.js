@@ -180,7 +180,6 @@ async function deleteById(req, res, next) {
     }
 }
 
-
 /**
  * @description Show list of all users
  * @function

@@ -1,17 +1,15 @@
 const request = require('supertest');
 const chai = require('chai');
-
 const server = require('../../src/server/server');
 
 const { expect } = chai;
 
 const testUserEmail = `user${Math.floor(Math.random() * 10000)}@gmail.com`;
+let user;
+let accessToken;
+let refreshToken;
 
 describe('UserComponent -> controller', () => {
-    let user;
-    let accessToken;
-    let refreshToken;
-
     it('POST Auth -> Component -> controller -> Create user ', (done) => {
         request(server)
             .post('/v1/auth/api/create')
