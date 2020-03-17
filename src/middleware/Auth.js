@@ -1,5 +1,11 @@
 const jwt = require('jsonwebtoken');
 
+/**
+ * @description Auth middleware for api users(uses token in http header)
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ * @param {Express.NextFunction} next
+ */
 function isAuthJWT(req, res, next) {
     const token = req.get('Authorization');
     let decoded;
@@ -22,6 +28,12 @@ function isAuthJWT(req, res, next) {
     });
 }
 
+/**
+ * @description Auth middleware for frontend users(uses sessions)
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ * @param {Express.NextFunction} next
+ */
 function isAuthPasport(req, res, next) {
     if (!req.session.user) {
         req.flash('error', 'You don\'t have permission.');

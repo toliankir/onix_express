@@ -30,6 +30,7 @@ module.exports = {
             name: 'sessionId',
             resave: true,
             saveUninitialized: true,
+            // Save session in Mongo database
             store: new MongoStore({
                 mongooseConnection: mongoConnection,
                 dbName: 'session',

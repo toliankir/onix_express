@@ -5,6 +5,10 @@ const AuthService = require('./service');
 const ValidationError = require('../../error/ValidationError');
 const { leftNeededFileds } = require('../../helpers/userHelper');
 
+/**
+ * @description Generate and return tokens object for user
+ * @param {String} _id key from Mongo DB
+ */
 async function getTokens(user) {
     const accessToken = jwt.sign({ user }, process.env.JWT_PRIVATE_KEY, { expiresIn: '3h' });
     const refreshToken = jwt.sign({ }, process.env.JWT_PRIVATE_KEY, { expiresIn: '1d' });
@@ -18,12 +22,22 @@ async function getTokens(user) {
     };
 }
 
+/**
+ * @description Return crypted password
+ * @param {String} password Non crypted password
+ */
 function getCryptedPassword(password) {
     return crypto.createHmac('sha256', process.env.PASSWORD_CRYPTO_SALT)
         .update(password)
         .digest('hex');
 }
 
+/**
+ * 
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ * @param {Express.NextFunction} next
+ */
 async function createUserFront(req, res, next) {
     try {
         const { error } = UserValidation.create(req.body);

@@ -39,7 +39,6 @@ describe('UserComponent -> controller', () => {
                 done(error);
             });
     });
-    console.log(refreshToken);
 
     it('POST AuthComponent -> controller Refresh -> /v1/auth/api/refresh ', (done) => {
         request(server)
@@ -52,7 +51,7 @@ describe('UserComponent -> controller', () => {
                 expect(body.data.token.accessToken).to.be.a('string');
                 expect(body.data.token.refreshToken).to.be.a('string');
                 accessToken = body.data.token.accessToken;
-                accessToken = body.data.token.refreshToken;
+                refreshToken = body.data.token.refreshToken;
                 done();
             })
             .catch((error) => {
@@ -60,7 +59,23 @@ describe('UserComponent -> controller', () => {
             });
     });
 
-    it('POST UserComponent -> controller -> /v1/users/', (done) => {
+    it('POST AuthComponent -> controller Logout -> /v1/auth/api/logiut ', (done) => {
+        request(server)
+            .post('/v1/auth/api/logout')
+            .send({ accessToken })
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then(({ body }) => {
+                expect(body.data.ok).to.be.equal(1);
+                done();
+            })
+            .catch((error) => {
+                done(error);
+            });
+    });
+
+    it(`POST UserComponent -> controller Create User(${testUserEmail})-> /v1/users/`, (done) => {
         request(server)
             .post('/v1/users/api')
             .set('Authorization', accessToken)
@@ -80,7 +95,7 @@ describe('UserComponent -> controller', () => {
             .catch((err) => done(err));
     });
 
-    it('GET UserComponent -> controller -> /v1/users/:id', (done) => {
+    it('GET UserComponent -> controller Get User by id-> /v1/users/:id', (done) => {
         request(server)
             // eslint-disable-next-line no-underscore-dangle
             .get(`/v1/users/api/${user._id}`)
@@ -97,7 +112,7 @@ describe('UserComponent -> controller', () => {
             .catch((err) => done(err));
     });
 
-    it('GET UserComponent -> controller -> /v1/users/', (done) => {
+    it('GET UserComponent -> controller Get All Users-> /v1/users/', (done) => {
         request(server)
             .get('/v1/users/api')
             .set('Authorization', accessToken)
@@ -106,6 +121,22 @@ describe('UserComponent -> controller', () => {
             .then(({ body }) => {
                 const expectBody = expect(body);
                 expectBody.to.have.property('data').and.to.be.a('array');
+                done();
+            })
+            .catch((err) => done(err));
+    });
+
+    it('DELETE UserComponent -> controller Delete User-> /v1/users/', (done) => {
+        request(server)
+            .delete('/v1/users/api')
+            .set('Authorization', accessToken)
+            // eslint-disable-next-line no-underscore-dangle
+            .send({ id: user._id })
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then(({ body }) => {
+                const expectBody = expect(body.data);
+                expectBody.to.have.property('deletedCount').and.to.be.equal(1);
                 done();
             })
             .catch((err) => done(err));
