@@ -16,7 +16,10 @@
             <% } else  {%>
                 <a href="/v1/users/create" class="btn btn-primary">Create user</a>
                 <a href="/v1/users/login" class="btn btn-primary">Login</a>
-            <% } %>        
+            <% } %>
+            <% if (typeof messages !== 'undefined') {%>
+                <%= messages.error %>
+            <% } %> 
         </div>
         <h3>Users</h3>
         <a href="/v1/users/add" class="btn btn-success float-right">Add User</a>

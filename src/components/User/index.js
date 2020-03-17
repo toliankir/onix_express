@@ -197,7 +197,7 @@ async function showAll(req, res, next) {
             users,
             msg,
             error,
-            loggedUser: (req.session.user ? req.session.user.email : undefined),
+            loggedUser: (req.isAuthenticated() ? req.session.passport.user.email : undefined),
         });
     } catch (error) {
         res.render('500');
@@ -227,7 +227,6 @@ async function showAddUser(req, res, next) {
         next(error);
     }
 }
-
 
 async function showLogin(req, res, next) {
     try {
@@ -263,7 +262,6 @@ async function showCreateUser(req, res, next) {
         next(error);
     }
 }
-
 
 /**
  * @description Show list of all users with modal window for user update.

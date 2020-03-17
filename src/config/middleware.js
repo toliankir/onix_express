@@ -9,7 +9,9 @@ const session = require('express-session');
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const MongoStore = require('connect-mongo')(session);
+const passport = require('passport');
 const mongoConnection = require('./connection');
+require('./passport');
 
 module.exports = {
     /**
@@ -26,7 +28,7 @@ module.exports = {
         );
         // add session support
         app.use(session({
-            secret: 'secret',
+            secret: process.env.SESSION_SECRET,
             name: 'sessionId',
             resave: true,
             saveUninitialized: true,
@@ -37,6 +39,7 @@ module.exports = {
             }),
             cookie: { maxAge: 3600 * 24 },
         }));
+
         // add support of PUT, DELETE, etc method in html forms by adding a _medthod field
         // in POST request
         app.use(methodOverride((req) => {
@@ -50,6 +53,9 @@ module.exports = {
             return null;
         }));
         app.use(bodyParser.json());
+        // Add passport
+        app.use(passport.initialize());
+        app.use(passport.session());
         // parse Cookie header and populate req.cookies with an object keyed by the cookie names.
         app.use(cookieParser());
         // returns the compression middleware

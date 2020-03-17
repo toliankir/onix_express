@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const passport = require('passport');
 const AuthComponent = require('./index');
 
 /**
@@ -55,8 +56,12 @@ routerAuth.post('/api/create', AuthComponent.createUser);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-routerAuth.post('/login', AuthComponent.loginUser);
-
+// routerAuth.post('/login', AuthComponent.loginUser);
+routerAuth.post('/login', passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/',
+    failureFlash: true,
+}));
 /**
  * @description Create new system user form frontend
  * @name /v1/auth/create

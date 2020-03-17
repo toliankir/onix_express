@@ -100,5 +100,4 @@ describe('AuthComponent -> service', () => {
             done(error);
         });
     });
-
 });

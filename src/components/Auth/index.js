@@ -207,8 +207,8 @@ async function loginUser(req, res, next) {
  */
 async function logoutUser(req, res, next) {
     try {
-        if (req.session.user) {
-            delete req.session.user;
+        if (req.session.passport) {
+            delete req.session.passport;
         }
         return res.redirect('/v1/users');
     } catch (error) {

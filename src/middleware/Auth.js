@@ -34,8 +34,8 @@ function isAuthJWT(req, res, next) {
  * @param {Express.Response} res
  * @param {Express.NextFunction} next
  */
-function isAuthPasport(req, res, next) {
-    if (!req.session.user) {
+function isAuthPassport(req, res, next) {
+    if (!req.isAuthenticated()) {
         req.flash('error', 'You don\'t have permission.');
         return res.redirect('/v1/users');
     }
@@ -43,5 +43,5 @@ function isAuthPasport(req, res, next) {
 }
 module.exports = {
     isAuthJWT,
-    isAuthPasport,
+    isAuthPassport,
 };
