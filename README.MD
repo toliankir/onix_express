@@ -1,3 +1,8 @@
+For migration start run "node bootstrap.js" or "npm run bootstrap"
+
+-------------------------------------------
+Task 
+
 1. Migrate books collection from books.xlsx or books.csv file.
     - [migrate-mongo](https://www.npmjs.com/package/migrate-mongo)
 
