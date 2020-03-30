@@ -3,6 +3,7 @@ const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const helmet = require('helmet');
+const express = require('express');
 
 module.exports = {
     /**
@@ -17,6 +18,7 @@ module.exports = {
                 extended: true,
             }),
         );
+        app.use(express.static('public'));
         app.use(bodyParser.json());
         // parse Cookie header and populate req.cookies with an object keyed by the cookie names.
         app.use(cookieParser());
