@@ -19,6 +19,7 @@ module.exports = {
             }),
         );
         app.use(express.static('public'));
+        // add folder with web server static content
         app.use(bodyParser.json());
         // parse Cookie header and populate req.cookies with an object keyed by the cookie names.
         app.use(cookieParser());

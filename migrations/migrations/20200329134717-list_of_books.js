@@ -10,6 +10,8 @@ module.exports = {
                 updatedAt: new Date(),
             });
         });
-        // await db.collection('booksmodel').insertMany(books);
+    },
+    async down(db) {
+        await db.collection('booksmodel').deleteMany({});
     },
 };
