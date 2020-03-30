@@ -2,7 +2,7 @@ const j = require('j');
 const path = require('path');
 
 function getBooksArray(file, objKeys, offset) {
-    const filePath = path.join(path.dirname(process.cwd()), file);
+    const filePath = path.join(process.cwd(), file);
 
     const xlsData = j.XLSX.readFile(filePath);
     const sheet = Object.values(xlsData.Sheets[xlsData.SheetNames[0]]);
