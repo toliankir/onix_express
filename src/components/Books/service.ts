@@ -1,11 +1,16 @@
-const bookModel = require('./model');
+import { bookModel } from './model';
+
+export interface IBookAggregate {
+    code3: string;
+    value: number;
+}
 
 /**
  * @method getChartData
  * @param {any}
  * @returns {any}
  */
-function getChartData() {
+export function getChartData() {
     return bookModel.aggregate([
         {
             $group: {
@@ -24,7 +29,3 @@ function getChartData() {
         },
     ]);
 }
-
-module.exports = {
-    getChartData,
-};

@@ -1,15 +1,23 @@
+import http from 'http';
+
+interface AddressInfo {
+    address: string;
+    family: string;
+    port: number;
+}
+
 /**
  * @function
  * @param  {NodeJS.ErrnoException} error
  * @param  {number|string|boolean} port
  * @returns throw error
  */
-function onError(error, port) {
+function onError(error: NodeJS.ErrnoException, port: number | string | boolean): void {
     if (error.syscall !== 'listen') {
         throw error;
     }
 
-    const bindPort = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
+    const bindPort: string = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
 
     switch (error.code) {
         case 'EACCES':
@@ -27,9 +35,9 @@ function onError(error, port) {
  * @inner
  * @description log port to console
  */
-function onListening() {
-    const addr = this.address();
-    const bindPort = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+function onListening(): void {
+    const addr: AddressInfo | string = this.address();
+    const bindPort: string = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
 
     console.log(`Listening on ${bindPort}`);
 }
@@ -40,12 +48,13 @@ function onListening() {
  * @param {http.Server} Server
  * @param {number} port
  */
-function bind(Server, port) {
+function bind(Server: http.Server, port: number): void {
+    Server.address();
     Server.on('error', (error) => this.onError(error, port));
     Server.on('listening', this.onListening.bind(Server));
 }
 
-module.exports = {
+export default {
     onError,
     onListening,
     bind,

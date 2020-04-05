@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const MONGODB_URI = 'mongodb://localhost:27017/';
-const MONGODB_DB_MAIN = 'books_db';
-const MONGO_URI = `${MONGODB_URI}${MONGODB_DB_MAIN}`;
+const MONGODB_URI: string = 'mongodb://localhost:27017/';
+const MONGODB_DB_MAIN: string = 'books_db';
+const MONGO_URI: string = `${MONGODB_URI}${MONGODB_DB_MAIN}`;
 
-const connectOptions = {
+const connectOptions: mongoose.ConnectionOptions = {
     // automatically try to reconnect when it loses connection
     autoReconnect: true,
     // reconnect every reconnectInterval milliseconds
@@ -17,4 +17,4 @@ const connectOptions = {
     useUnifiedTopology: true,
 };
 
-module.exports = mongoose.createConnection(MONGO_URI, connectOptions);
+export default mongoose.createConnection(MONGO_URI, connectOptions);

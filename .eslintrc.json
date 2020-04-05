@@ -1,21 +1,35 @@
 {
-    "extends": ["airbnb-base"],
-    "env": {
-        "es6": true,
-        "node": true,
-        "mocha": true
-    },
-    "rules": {
-        "indent": [
-            2,
-            4,
-            {
-                "SwitchCase": 1
-            }
-        ],
-        "strict": 0,
-        "no-var": "error",
-        "no-console": 0,
-        "no-fallthrough": 0
-    }
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "extends": [
+      "airbnb-base",
+      "airbnb-typescript/base"
+  ],
+  "env": {
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "rules": {
+    "strict": 0,
+    "no-var": "error",
+    "no-console": 0,
+    "no-fallthrough": 0,
+    "@typescript-eslint/indent": [
+      2,
+      4,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "@typescript-eslint/typedef": [
+      "error",
+      {
+        "arrowParameter": false,
+        "variableDeclaration": true
+      }
+    ]
+  }
 }

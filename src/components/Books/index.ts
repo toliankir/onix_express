@@ -1,4 +1,5 @@
-const { getChartData } = require('./service');
+import express from 'express';
+import { getChartData } from './service';
 
 /**
  * @function
@@ -7,7 +8,9 @@ const { getChartData } = require('./service');
  * @param {express.NextFunction} next
  * @returns {Promise < void >}
  */
-async function chart(req, res, next) {
+export default async function chart(req: express.Request,
+    res: express.Response,
+    next: express.NextFunction): Promise<any> {
     try {
         return res.status(200).json({
             data: await getChartData(),
@@ -21,8 +24,3 @@ async function chart(req, res, next) {
         return next(error);
     }
 }
-
-
-module.exports = {
-    chart,
-};
