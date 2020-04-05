@@ -1,5 +1,5 @@
 import express from 'express';
-import chart from './index';
+import bookController from './index';
 // const BooksComponent = require('../Books');
 
 /**
@@ -17,6 +17,6 @@ const booksRouter: express.Router = express.Router();
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
-booksRouter.get('/', chart);
-// BooksComponent.chart
+booksRouter.get('/', bookController.chart.bind(bookController));
+
 export default booksRouter;

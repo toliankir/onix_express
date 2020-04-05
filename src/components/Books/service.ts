@@ -1,31 +1,37 @@
-import { bookModel } from './model';
+import mongoose from 'mongoose';
+import { bookModel, IBook } from './model';
 
 export interface IBookAggregate {
     code3: string;
     value: number;
 }
 
-/**
- * @method getChartData
- * @param {any}
- * @returns {any}
- */
-export function getChartData() {
-    return bookModel.aggregate([
-        {
-            $group: {
-                _id: '$code3',
-                value: {
-                    $sum: 1,
+export class BookService {
+    private model: mongoose.Model<IBook>;
+
+    constructor(model: mongoose.Model<IBook>) {
+        this.model = model;
+    }
+
+    public getChartData(): mongoose.Aggregate<IBookAggregate[]> {
+        return this.model.aggregate([
+            {
+                $group: {
+                    _id: '$code3',
+                    value: {
+                        $sum: 1,
+                    },
                 },
             },
-        },
-        {
-            $project: {
-                code3: '$_id',
-                value: true,
-                _id: false,
+            {
+                $project: {
+                    code3: '$_id',
+                    value: true,
+                    _id: false,
+                },
             },
-        },
-    ]);
+        ]);
+    }
 }
+
+export default new BookService(bookModel);

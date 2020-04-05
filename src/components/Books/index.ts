@@ -1,5 +1,5 @@
 import express from 'express';
-import { getChartData } from './service';
+import bookService, { IBookAggregate, BookService } from './service';
 
 /**
  * @function
@@ -8,19 +8,35 @@ import { getChartData } from './service';
  * @param {express.NextFunction} next
  * @returns {Promise < void >}
  */
-export default async function chart(req: express.Request,
-    res: express.Response,
-    next: express.NextFunction): Promise<any> {
-    try {
-        return res.status(200).json({
-            data: await getChartData(),
-        });
-    } catch (error) {
-        res.status(500).json({
-            message: error.name,
-            details: error.message,
-        });
+class BookController {
+    private service: BookService;
 
-        return next(error);
+    private test: number;
+
+    constructor(service: BookService) {
+        this.service = service;
+    }
+
+    public async testR(): Promise<void> {
+        console.log(await this.service.getChartData());
+    }
+
+    public async chart(req: express.Request,
+        res: express.Response,
+        next: express.NextFunction): Promise<any> {
+        try {
+            const data: IBookAggregate[] = await this.service.getChartData();
+            return res.status(200).json({
+                data,
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: error.name,
+                details: error.message,
+            });
+            return next(error);
+        }
     }
 }
+
+export default new BookController(bookService);
