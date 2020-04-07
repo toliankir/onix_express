@@ -1,26 +1,19 @@
 import express from 'express';
 import bookService, { IBookAggregate, BookService } from './service';
 
-/**
- * @function
- * @param {express.Request} req
- * @param {express.Response} res
- * @param {express.NextFunction} next
- * @returns {Promise < void >}
- */
 class BookController {
     private service: BookService;
-
-    private test: number;
 
     constructor(service: BookService) {
         this.service = service;
     }
 
-    public async testR(): Promise<void> {
-        console.log(await this.service.getChartData());
-    }
-
+    /**
+    * Make express response with aggregated chart data.
+    * @param req express.Request
+    * @param res express.Response
+    * @param next express.NextFunction
+    */
     public async chart(req: express.Request,
         res: express.Response,
         next: express.NextFunction): Promise<any> {

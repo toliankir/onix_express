@@ -1,6 +1,5 @@
 import express from 'express';
 import bookController from './index';
-// const BooksComponent = require('../Books');
 
 /**
  * Express router to mount books related functions on.

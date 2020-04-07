@@ -5,6 +5,9 @@ import cors from 'cors';
 import helmet from 'helmet';
 import express from 'express';
 
+/**
+ * @param app express.Application - instance of express application
+ */
 function init(app: express.Application): void {
     app.use(
         bodyParser.urlencoded({

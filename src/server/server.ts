@@ -1,7 +1,6 @@
 import express from 'express';
 import routes from '../config/router';
 import middleware from '../config/middleware';
-// const routes = require('../config/router');
 
 /**
  * @type {express}

@@ -1,6 +1,6 @@
 import http from 'http';
 
-interface AddressInfo {
+export interface IAddressInfo {
     address: string;
     family: string;
     port: number;
@@ -36,9 +36,8 @@ function onError(error: NodeJS.ErrnoException, port: number | string | boolean):
  * @description log port to console
  */
 function onListening(): void {
-    const addr: AddressInfo | string = this.address();
+    const addr: IAddressInfo | string = this.address();
     const bindPort: string = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
-
     console.log(`Listening on ${bindPort}`);
 }
 
@@ -49,10 +48,10 @@ function onListening(): void {
  * @param {number} port
  */
 function bind(Server: http.Server, port: number): void {
-    Server.address();
     Server.on('error', (error) => this.onError(error, port));
     Server.on('listening', this.onListening.bind(Server));
 }
+
 
 export default {
     onError,

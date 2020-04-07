@@ -13,6 +13,9 @@ export class BookService {
         this.model = model;
     }
 
+    /**
+     * Make aggregation request in mongo database.
+     */
     public getChartData(): mongoose.Aggregate<IBookAggregate[]> {
         return this.model.aggregate([
             {
