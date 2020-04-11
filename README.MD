@@ -1,5 +1,4 @@
 For migration start run "node bootstrap.js" or "npm run bootstrap"
-
 -------------------------------------------
 Task 
 
