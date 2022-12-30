@@ -21,7 +21,7 @@
         "helmet": "^3.22.0",
         "j": "^1.0.0",
         "migrate-mongo": "^7.1.0",
-        "mocha": "7.1.0",
+        "mocha": "10.2.0",
         "mongoose": "5.7.5",
         "supertest": "4.0.2"
     },
